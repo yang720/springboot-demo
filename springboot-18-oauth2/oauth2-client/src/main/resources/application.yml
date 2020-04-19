@@ -1,0 +1,19 @@
+
+auth-server: http://localhost:8080 # 认证服务器地址
+
+server:
+  port: 8000
+security:
+  oauth2:
+    client:
+      client-id: clientID
+      client-secret: secret
+      scope: all
+      access-token-uri: ${auth-server}/oauth/token
+      user-authorization-uri: ${auth-server}/oauth/authorize
+    resource:
+      token-info-uri: ${auth-server}/oauth/check_token
+
+spring:
+  main:
+    allow-bean-definition-overriding: true

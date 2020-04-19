@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "auth-server",
+      "type": "java.lang.String",
+      "description": "Description for auth-server."
+  }
+] }

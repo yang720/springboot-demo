@@ -1,0 +1,32 @@
+spring:
+  datasource:
+    username: root
+    password: 123456
+    url: jdbc:mysql://192.168.0.113:3306/my_jdbc_test?autoReconnect=true&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&zeroDateTimeBehavior=convertToNull&useSSL=false
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    # 指定数据源类型为阿里的druid
+    type: com.alibaba.druid.pool.DruidDataSource
+    # 给druid数据源配置初始化信息
+
+    initialSize: 5
+    minIdle: 5
+    maxActive: 20
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1 FROM DUAL
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+#   配置监控统计拦截的filters，去掉监控界面sql无法统计，'wall'用于防火墙
+    filters: stat,wall,log4j
+    maxPoolPreparedStatementPerConnectionSize: 20
+    useGlobaDataSourceStat: true
+    connectionProperties: druid.stat.mergeSql-ture;druid.stat.slowSqlMills=500
+
+
+    #  springboot2.0以上需要添加initialization-mode: always，否则检测不到自动创建表的配置
+    #initialization-mode: always
+#    schema:
+#      - classpath:department.sql

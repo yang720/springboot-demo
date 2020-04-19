@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>登录页</title>
+
+<link rel="stylesheet" type="text/css" th:href="@{/css/font-awesome-4.7.0/css/font-awesome.min.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/style-login.css}">
+
+</head>
+<body>
+
+<div class="materialContainer">
+	<div class="box">
+		<form action="dashboard.html" th:action="@{/tologin}" method="post">
+			<div class="title" th:text="#{login.tip}">登录</div>
+			<!-- 判断 -->
+			<p th:text="${msg}" th:if="${not #strings.isEmpty(msg)}" style="color:red;text-align: center;"></p>
+			<div class="input">
+				<label for="username" th:text="#{login.username}">用户名</label>
+				<input type="text" name="username" id="username" placeholder="Username" th:placeholder="#{login.username}">
+				<span class="spin"></span>
+			</div>
+			<div class="input">
+				<label for="password" th:text="#{login.password}">密码</label>
+				<input type="password" name="password" id="password" placeholder="Password" th:placeholder="#{login.password}">
+				<span class="spin"></span>
+			</div>
+			<div class="button login" id="login">
+				<button type="submit">
+					<span th:text="#{login.btn}">登录</span>
+					<i class="fa fa-check"></i>
+				</button>
+			</div>
+			<a href="javascript:" class="pass-forgot">忘记密码？</a>
+			<a th:href="@{/index.html(l='zh_CN')}">中文</a>&nbsp;&nbsp;
+			<a th:href="@{/index.html(l='en_US')}">English</a>
+		</form>
+	</div>
+
+	<div class="overbox">
+		<div class="material-button alt-2">
+			<span class="shape"></span>
+		</div>
+		<div class="title">注册</div>
+		<div class="input">
+			<label for="regname">用户名</label>
+			<input type="text" name="regname" id="regname">
+			<span class="spin"></span>
+		</div>
+		<div class="input">
+			<label for="regpass">密码</label>
+			<input type="password" name="regpass" id="regpass">
+			<span class="spin"></span>
+		</div>
+		<div class="input">
+			<label for="reregpass">确认密码</label>
+			<input type="password" name="reregpass" id="reregpass">
+			<span class="spin"></span>
+		</div>
+		<div class="button">
+			<button>
+				<span>注册</span>
+			</button>
+		</div>
+	</div>
+
+</div>
+
+<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/index.js}"></script>
+
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" th:href="@{/assets/images/favicon.png}">
+    <title>员工列表</title>
+    <!-- Bootstrap Core CSS -->
+    <link th:href="@{/assets/node_modules/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+    <!-- You can change the theme colors from here -->
+    <link th:href="@{/css/colors/default.css}" id="theme" rel="stylesheet">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+</head>
+
+<body class="fix-header card-no-border fix-sidebar">
+    <!-- loading效果 -->
+    <div th:replace="commons/bar::#loading"></div>
+
+    <div id="main-wrapper">
+
+        <!-- 引入dashborad页面抽取的topbar -->
+        <!-- 模板名：会使用Thymeleaf的前后缀配置规则进行解析 -->
+        <div th:replace="commons/bar::#topbar"></div>
+
+        <!-- 引入侧边栏  #sidebar为id选择器 -->
+        <div th:replace="commons/bar::#sidebar"></div>
+
+
+        <div class="page-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                    <!-- column -->
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <!--<h4 class="card-title">信息列表</h4>-->
+                                <h2><a class="btn btn-sm btn-success" href="" th:href="@{/emp}">添加员工</a></h2>
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>lastName</th>
+                                                <th>email</th>
+                                                <th>gender</th>
+                                                <th>department</th>
+                                                <th>birth</th>
+                                                <th>操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr th:each="emp:${emps}">
+                                                <td th:text="${emp.id}"></td>
+                                                <td >[[${emp.lastName}]]</td>
+                                                <td th:text="${emp.email}"></td>
+                                                <td th:text="${emp.gender}==0?'女':'男'"></td>
+                                                <td th:text="${emp.department.departmentName}"></td>
+                                                <td th:text="${#dates.format(emp.birth,'yyyy-MM-dd HH:mm:ss')}"></td>
+                                                <td>
+                                                    <a class="btn btn-sm btn-primary" th:href="@{/emp/}+${emp.id}">编辑</a>
+                                                    <!-- th:attr可以设置自定义属性及值 -->
+                                                    <button th:attr="del_uri=@{/emp/}+${emp.id}, del_id=${emp.id}"  class="btn btn-sm btn-danger deleteBtn">删除</button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <!--删除员工，表单放在外层不影响模板结，所有的删除操作共用一个表单-->
+                            <form id="deleteEmpForm" method="post">
+                                <input type="hidden" name="_method" value="delete"/>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
+    <script th:src="@{/assets/node_modules/jquery/jquery.min.js}"></script>
+    <!-- Bootstrap tether Core JavaScript -->
+    <script th:src="@{/assets/node_modules/bootstrap/js/popper.min.js}"></script>
+    <script th:src="@{/assets/node_modules/bootstrap/js/bootstrap.min.js}"></script>
+    <!-- slimscrollbar scrollbar JavaScript -->
+    <script th:src="@{/js/perfect-scrollbar.jquery.min.js}"></script>
+    <!--Wave Effects -->
+    <script th:src="@{/js/waves.js}"></script>
+    <!--Menu sidebar -->
+    <script th:src="@{/js/sidebarmenu.js}"></script>
+    <!--Custom JavaScript -->
+    <script th:src="@{/js/custom.min.js}"></script>
+    <!-- jQuery peity -->
+    <script th:src="@{/assets/node_modules/peity/jquery.peity.min.js}"></script>
+    <script th:src="@{/assets/node_modules/peity/jquery.peity.init.js}"></script>
+    <script>
+        $(".deleteBtn").click(function() {
+            // 1.使用表单删除当前员工
+            //$("#deleteEmpForm").attr("action",$(this).attr("del_uri")).submit();
+
+            // 2.使用Ajax提交
+            let id = $(this).attr("del_id");
+            let delDom = $(this).parent().parent();
+            $.ajax({
+                type: "delete",
+                url: "[[@{/delEmp/}]]"+id,
+                dataType: "json",
+                success: function (resp) {
+                    if("success"===resp.data){
+                        delDom.remove();
+                        console.log("删除成功")
+                    }
+
+                },
+                error: function(){
+
+                }
+            });
+            return false;
+        });
+    </script>
+</body>
+
+</html>
