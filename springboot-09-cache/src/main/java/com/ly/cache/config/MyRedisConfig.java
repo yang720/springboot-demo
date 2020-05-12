@@ -41,7 +41,7 @@ public class MyRedisConfig {
      * 在springboot2.0X中只需要自定义如下的redisCacheManager()方法返回定制的RedisCacheManager即可，不需要重复写对应类的配置
      *
      * @param redisConnectionFactory
-     * @return
+     * @return template RedisTemplate<Object, Employee>
      * @throws UnknownHostException
      */
     @Bean
@@ -56,7 +56,7 @@ public class MyRedisConfig {
     /**
      * springboot2.0X 将对象以json格式存储到redis中
      * CacheManagerCustomizers可以来定制缓存的规则
-     * @param
+     * @param factory RedisConnectionFactory
      * @return cacheManager 返回自定义配置
      */
     @Bean

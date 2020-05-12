@@ -1,4 +1,4 @@
-
+# 注册中心
 server:
   port: 8761
 eureka:

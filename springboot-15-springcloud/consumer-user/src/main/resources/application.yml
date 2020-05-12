@@ -1,3 +1,4 @@
+# 客户端
 spring:
   application:
     name: consumer-user
